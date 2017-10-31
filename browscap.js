@@ -1,11 +1,12 @@
 "use strict";
 
-module.exports = function Browscap (cacheDir) {
+module.exports = function Browscap (cacheDir, cacheOptions) {
   if (typeof cacheDir === 'undefined') {
     cacheDir = require('path').dirname(require.resolve('browscap-json-cache-files')) + '/sources/';
   }
 
-  this.cacheDir = cacheDir;
+  this.cacheDir     = cacheDir;
+  this.cacheOptions = cacheOptions;
 
   /**
    * parses the given user agent to get the information about the browser
@@ -20,10 +21,10 @@ module.exports = function Browscap (cacheDir) {
     var quoter        = new Quoter();
     var GetPattern    = require('./helper/pattern');
     var BrowscapCache = require('browscap-js-cache');
-    var cache         = new BrowscapCache(this.cacheDir);
+    var cache         = new BrowscapCache(this.cacheDir, this.cacheOptions);
     var GetData       = require('./helper/data');
-    var patternHelper = new GetPattern(cache);
-    var dataHelper    = new GetData(cache, quoter);
+    var patternHelper = new GetPattern(cache, this.cacheOptions);
+    var dataHelper    = new GetData(cache, quoter, this.cacheOptions);
 
     var parser = new Ini(patternHelper, dataHelper);
 

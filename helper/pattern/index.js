@@ -35,6 +35,9 @@ if (typeof(process) === 'object' && typeof(process.versions) === 'object' && pro
     global.Promise = require(nodejs_only + "synchronous-promise").SynchronousPromise;
 }
 
+const SubKey        = require('../subkey');
+const PatternHelper = require('./helper');
+
 /**
  * extracts the pattern and the data for theses pattern from the ini content, optimized for PHP 5.5+
  *
@@ -45,8 +48,11 @@ if (typeof(process) === 'object' && typeof(process.versions) === 'object' && pro
  * @license    http://www.opensource.org/licenses/MIT MIT License
  * @link       https://github.com/mimmi20/browscap-js/
  */
-module.exports = function GetPattern (cache) {
+module.exports = function GetPattern (cache, subKeyOptions) {
     this.cache = cache;
+
+    this._patternHelper = new PatternHelper();
+    this._subkeyHelper  = new SubKey(subKeyOptions);
 
     /**
      * Gets some possible patterns that have to be matched against the user agent. With the given
@@ -60,19 +66,13 @@ module.exports = function GetPattern (cache) {
      * @return Array
      */
     this.getPatterns = function getPatterns (userAgent) {
-        var PatternHelper = require('./helper');
-        var patternHelper = new PatternHelper();
-
-        var SubKey       = require('../subkey');
-        var subkeyHelper = new SubKey();
-
-        var starts = patternHelper.getHashForPattern(userAgent, true);
-        var length = patternHelper.getPatternLength(userAgent);
+        var starts = this._patternHelper.getHashForPattern(userAgent, true);
+        var length = this._patternHelper.getPatternLength(userAgent);
 
         // get patterns, first for the given browser and if that is not found,
         // for the default browser (with a special key)
         return Promise.all(starts.map((tmpStart) => {
-            var tmpSubkey = subkeyHelper.getPatternCacheSubkey(tmpStart);
+            var tmpSubkey = this._subkeyHelper.getPatternCacheSubkey(tmpStart);
 
             return Promise.resolve(this.cache.getItem('browscap.patterns.' + tmpSubkey, true));
         })).then((files) => {

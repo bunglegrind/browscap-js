@@ -35,11 +35,8 @@ if (typeof(process) === 'object' && typeof(process.versions) === 'object' && pro
     global.Promise = require(nodejs_only + "synchronous-promise").SynchronousPromise;
 }
 
-var SubKey = require('../subkey');
-var subkeyHelper = new SubKey();
-
-var PatternHelper = require('../pattern/helper');
-var patternHelper = new PatternHelper();
+const SubKey        = require('../subkey');
+const PatternHelper = require('../pattern/helper');
 
 /**
  * extracts the pattern and the data for theses pattern from the ini content, optimized for PHP 5.5+
@@ -51,9 +48,12 @@ var patternHelper = new PatternHelper();
  * @license    http://www.opensource.org/licenses/MIT MIT License
  * @link       https://github.com/mimmi20/browscap-js/
  */
-module.exports = function GetData (cache, quoter) {
+module.exports = function GetData (cache, quoter, subKeyOptions) {
     this.cache  = cache;
     this.quoter = quoter;
+
+    this._patternHelper = new PatternHelper();
+    this._subkeyHelper = new SubKey(subKeyOptions);
 
     /**
      * Gets the settings for a given pattern (method calls itself to
@@ -154,8 +154,8 @@ module.exports = function GetData (cache, quoter) {
      */
     this.getIniPart = function getIniPart (pattern) {
         pattern         = pattern.toLowerCase();
-        var patternhash = patternHelper.getHashForParts(pattern);
-        var subkey      = subkeyHelper.getIniPartCacheSubKey(patternhash);
+        var patternhash = this._patternHelper.getHashForParts(pattern);
+        var subkey      = this._subkeyHelper.getIniPartCacheSubKey(patternhash);
 
         return Promise.resolve(this.cache.getItem('browscap.iniparts.' + subkey, true)).then((file) => {
             if (!file.success) {

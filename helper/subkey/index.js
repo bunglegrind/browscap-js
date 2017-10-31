@@ -38,7 +38,31 @@
  * @license    http://www.opensource.org/licenses/MIT MIT License
  * @link       https://github.com/mimmi20/browscap-js/
  */
-module.exports = function SubKey (content, success) {
+module.exports = function SubKey (options) {
+    const HEX_CHARS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                       'a', 'b', 'c', 'd', 'e', 'f'];
+
+    // Set default parameter values
+    this.options = Object.assign({
+        patternCacheBytes: 2,
+        iniPartCacheBytes: 3
+    }, options);
+
+
+    /// Utility function of generating all possible cache subkeys of length `n`
+    function* _yieldSubKeys(n) {
+        if (n > 1) {
+            for (var char of HEX_CHARS) {
+                for (var chars of _yieldSubKeys(n - 1)) {
+                    yield (char + chars);
+                }
+            }
+        } else if (n == 1) {
+            yield* HEX_CHARS;
+        }
+    }
+
+
     /**
      * Gets the subkey for the pattern cache file, generated from the given string
      *
@@ -46,7 +70,7 @@ module.exports = function SubKey (content, success) {
      * @return string
      */
     this.getPatternCacheSubkey = function getPatternCacheSubkey (string) {
-        return string.substring(0, 2);
+        return string.substring(0, this.options.patternCacheBytes);
     };
 
     /**
@@ -55,16 +79,7 @@ module.exports = function SubKey (content, success) {
      * @return Object
      */
     this.getAllPatternCacheSubkeys = function getAllPatternCacheSubkeys () {
-        var subkeys = {};
-        var chars   = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
-
-        for (var i = 0; i < chars.length; i++) {
-            for (var j = 0; j < chars.length; j++) {
-                subkeys[chars[i] + chars[j]] = '';
-            }
-        }
-
-        return subkeys;
+        return _yieldSubKeys(this.options.patternCacheBytes);
     };
 
     /**
@@ -74,7 +89,7 @@ module.exports = function SubKey (content, success) {
      * @return string
      */
     this.getIniPartCacheSubKey = function getIniPartCacheSubKey (string) {
-        return string.substring(0, 3);
+        return string.substring(0, this.options.iniPartCacheBytes);
     };
 
     /**
@@ -83,17 +98,6 @@ module.exports = function SubKey (content, success) {
      * @return Array
      */
     this.getAllIniPartCacheSubKeys = function getAllIniPartCacheSubKeys () {
-        var subKeys = [];
-        var chars   = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
-
-        for (var i = 0; i < chars.length; i++) {
-            for (var j = 0; j < chars.length; j++) {
-                for (var k = 0; k < chars.length; k++) {
-                    subKeys.push(chars[i] + chars[j] + chars[k]);
-                }
-            }
-        }
-
-        return subKeys;
+        return _yieldSubKeys(this.options.iniPartCacheBytes);
     };
 };
