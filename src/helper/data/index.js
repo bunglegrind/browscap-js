@@ -48,8 +48,10 @@ class GetData {
      *
      * @param {BrowscapCache} cache
      */
-    constructor(cache) {
+    constructor(cache, subKeyOptions) {
         this.cache = cache;
+
+        this._subKeyHelper = new SubKey(subKeyOptions);
     }
 
     /**
@@ -152,7 +154,7 @@ class GetData {
         pattern = pattern.toLowerCase();
 
         const patternhash = PatternHelper.getHashForParts(pattern);
-        const subkey = SubKey.getIniPartCacheSubKey(patternhash);
+        const subkey = this._subKeyHelper.getIniPartCacheSubKey(patternhash);
 
         return SynchronousPromise.resolve(this.cache.getItem('browscap.iniparts.' + subkey, true)).then((file) => {
             if (!file.success) {

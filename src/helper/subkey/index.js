@@ -39,14 +39,21 @@
  * @link       https://github.com/mimmi20/browscap-js/
  */
 class SubKey {
+    constructor(options) {
+        this.options = Object.assign({
+            patternCacheBytes: 2,
+            iniPartCacheBytes: 3
+        }, options);
+    }
+
     /**
      * Gets the subkey for the pattern cache file, generated from the given string
      *
      * @param  {string} string
      * @return {string}
      */
-    static getPatternCacheSubkey(string) {
-        return string.substring(0, 2);
+    getPatternCacheSubkey(string) {
+        return string.substring(0, this.options.patternCacheBytes);
     }
 
     /**
@@ -55,8 +62,8 @@ class SubKey {
      * @param {string} string
      * @return {string}
      */
-    static getIniPartCacheSubKey(string) {
-        return string.substring(0, 3);
+    getIniPartCacheSubKey(string) {
+        return string.substring(0, this.options.iniPartCacheBytes);
     }
 }
 

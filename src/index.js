@@ -13,12 +13,13 @@ class Browscap {
     /**
      * @param {string} cacheDir
      */
-    constructor(cacheDir) {
+    constructor(cacheDir, cacheOptions) {
         if (typeof cacheDir === 'undefined') {
             cacheDir = require('path').dirname(require.resolve('browscap-json-cache-files')) + '/sources/';
         }
 
         this.cacheDir = cacheDir;
+        this.cacheOptions = cacheOptions;
     }
 
     /**
@@ -34,10 +35,10 @@ class Browscap {
         const Ini = require('./parser');
         const GetPattern = require('./helper/pattern');
         const BrowscapCache = require('browscap-js-cache');
-        const cache = new BrowscapCache(this.cacheDir);
+        const cache = new BrowscapCache(this.cacheDir, this.cacheOptions);
         const GetData = require('./helper/data');
-        const patternHelper = new GetPattern(cache);
-        const dataHelper = new GetData(cache);
+        const patternHelper = new GetPattern(cache, this.cacheOptions);
+        const dataHelper = new GetData(cache, this.cacheOptions);
 
         const parser = new Ini(patternHelper, dataHelper);
 

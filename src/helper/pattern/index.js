@@ -46,8 +46,10 @@ class GetPattern {
     /**
      * @param {BrowscapCache} cache
      */
-    constructor(cache) {
+    constructor(cache, subKeyOptions) {
         this.cache = cache;
+        
+        this._subKeyHelper = new SubKey(subKeyOptions);
     }
 
     /**
@@ -69,7 +71,7 @@ class GetPattern {
         // for the default browser (with a special key)
         return SynchronousPromise.all(
             starts.map((tmpStart) => {
-                const tmpSubkey = SubKey.getPatternCacheSubkey(tmpStart);
+                const tmpSubkey = this._subKeyHelper.getPatternCacheSubkey(tmpStart);
 
                 return SynchronousPromise.resolve(this.cache.getItem('browscap.patterns.' + tmpSubkey, true));
             })
