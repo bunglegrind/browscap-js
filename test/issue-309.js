@@ -1,13 +1,12 @@
-"use strict";
+'use strict';
 
-var assert = require('assert'),
-    Browscap = require('../browscap.js'),
-    browscap = new Browscap(),
-    browser;
+const assert = require('assert');
+const Browscap = require('../src/index.js');
 
 suite('checking for issue 309. (1 test)', function () {
   test('issue-309 ["WinHTTP"]', function () {
-    browser = browscap.getBrowser('WinHTTP');
+    const browscap = new Browscap();
+    const browser = browscap.getBrowser('WinHTTP');
 
     assert.strictEqual(browser['Comment'], 'cURL', 'Expected actual "Comment" to be \'cURL\' (was \'' + browser['Comment'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');
     assert.strictEqual(browser['Browser'], 'WinHttp', 'Expected actual "Browser" to be \'WinHttp\' (was \'' + browser['Browser'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');

@@ -1,13 +1,12 @@
-"use strict";
+'use strict';
 
-var assert = require('assert'),
-    Browscap = require('../browscap.js'),
-    browscap = new Browscap(),
-    browser;
+const assert = require('assert');
+const Browscap = require('../src/index.js');
 
 suite('checking for issue 1668. (1 test)', function () {
   test('issue-1668 ["ZoomBot (Linkbot 1.0 http://suite.seozoom.it/bot.html)"]', function () {
-    browser = browscap.getBrowser('ZoomBot (Linkbot 1.0 http://suite.seozoom.it/bot.html)');
+    const browscap = new Browscap();
+    const browser = browscap.getBrowser('ZoomBot (Linkbot 1.0 http://suite.seozoom.it/bot.html)');
 
     assert.strictEqual(browser['Comment'], 'ZoomBot', 'Expected actual "Comment" to be \'ZoomBot\' (was \'' + browser['Comment'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');
     assert.strictEqual(browser['Browser'], 'ZoomBot', 'Expected actual "Browser" to be \'ZoomBot\' (was \'' + browser['Browser'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');

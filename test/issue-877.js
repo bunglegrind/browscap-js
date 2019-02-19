@@ -1,13 +1,12 @@
-"use strict";
+'use strict';
 
-var assert = require('assert'),
-    Browscap = require('../browscap.js'),
-    browscap = new Browscap(),
-    browser;
+const assert = require('assert');
+const Browscap = require('../src/index.js');
 
 suite('checking for issue 877. (1 test)', function () {
   test('issue-877 ["Roku/DVP-6.2 (096.02E06005A)"]', function () {
-    browser = browscap.getBrowser('Roku/DVP-6.2 (096.02E06005A)');
+    const browscap = new Browscap();
+    const browser = browscap.getBrowser('Roku/DVP-6.2 (096.02E06005A)');
 
     assert.strictEqual(browser['Comment'], 'Roku DVP', 'Expected actual "Comment" to be \'Roku DVP\' (was \'' + browser['Comment'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');
     assert.strictEqual(browser['Browser'], 'Roku DVP', 'Expected actual "Browser" to be \'Roku DVP\' (was \'' + browser['Browser'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');

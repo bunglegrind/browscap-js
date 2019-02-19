@@ -1,13 +1,12 @@
-"use strict";
+'use strict';
 
-var assert = require('assert'),
-    Browscap = require('../browscap.js'),
-    browscap = new Browscap(),
-    browser;
+const assert = require('assert');
+const Browscap = require('../src/index.js');
 
 suite('checking for issue 290. (1 test)', function () {
   test('issue-290 ["woobot/2.0"]', function () {
-    browser = browscap.getBrowser('woobot/2.0');
+    const browscap = new Browscap();
+    const browser = browscap.getBrowser('woobot/2.0');
 
     assert.strictEqual(browser['Comment'], 'WooRank', 'Expected actual "Comment" to be \'WooRank\' (was \'' + browser['Comment'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');
     assert.strictEqual(browser['Browser'], 'WooRank', 'Expected actual "Browser" to be \'WooRank\' (was \'' + browser['Browser'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');

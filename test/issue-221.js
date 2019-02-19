@@ -1,13 +1,12 @@
-"use strict";
+'use strict';
 
-var assert = require('assert'),
-    Browscap = require('../browscap.js'),
-    browscap = new Browscap(),
-    browser;
+const assert = require('assert');
+const Browscap = require('../src/index.js');
 
 suite('checking for issue 221. (1 test)', function () {
   test('issue-221 ["securepoint cf"]', function () {
-    browser = browscap.getBrowser('securepoint cf');
+    const browscap = new Browscap();
+    const browser = browscap.getBrowser('securepoint cf');
 
     assert.strictEqual(browser['Comment'], 'General Crawlers', 'Expected actual "Comment" to be \'General Crawlers\' (was \'' + browser['Comment'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');
     assert.strictEqual(browser['Browser'], 'Securepoint Content Filter', 'Expected actual "Browser" to be \'Securepoint Content Filter\' (was \'' + browser['Browser'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');

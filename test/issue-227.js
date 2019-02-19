@@ -1,13 +1,12 @@
-"use strict";
+'use strict';
 
-var assert = require('assert'),
-    Browscap = require('../browscap.js'),
-    browscap = new Browscap(),
-    browser;
+const assert = require('assert');
+const Browscap = require('../src/index.js');
 
 suite('checking for issue 227. (1 test)', function () {
   test('issue-227 ["RankFlex.com Webspider"]', function () {
-    browser = browscap.getBrowser('RankFlex.com Webspider');
+    const browscap = new Browscap();
+    const browser = browscap.getBrowser('RankFlex.com Webspider');
 
     assert.strictEqual(browser['Comment'], 'RankFlex', 'Expected actual "Comment" to be \'RankFlex\' (was \'' + browser['Comment'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');
     assert.strictEqual(browser['Browser'], 'RankFlex', 'Expected actual "Browser" to be \'RankFlex\' (was \'' + browser['Browser'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');

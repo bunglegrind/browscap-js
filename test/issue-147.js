@@ -1,13 +1,12 @@
-"use strict";
+'use strict';
 
-var assert = require('assert'),
-    Browscap = require('../browscap.js'),
-    browscap = new Browscap(),
-    browser;
+const assert = require('assert');
+const Browscap = require('../src/index.js');
 
 suite('checking for issue 147. (1 test)', function () {
   test('issue-147 ["Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp"]', function () {
-    browser = browscap.getBrowser('Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp');
+    const browscap = new Browscap();
+    const browser = browscap.getBrowser('Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp');
 
     assert.strictEqual(browser['Comment'], 'Yahoo! Slurp', 'Expected actual "Comment" to be \'Yahoo! Slurp\' (was \'' + browser['Comment'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');
     assert.strictEqual(browser['Browser'], 'Yahoo! Slurp', 'Expected actual "Browser" to be \'Yahoo! Slurp\' (was \'' + browser['Browser'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');

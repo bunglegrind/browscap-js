@@ -1,13 +1,12 @@
-"use strict";
+'use strict';
 
-var assert = require('assert'),
-    Browscap = require('../browscap.js'),
-    browscap = new Browscap(),
-    browser;
+const assert = require('assert');
+const Browscap = require('../src/index.js');
 
 suite('checking for issue 156. (1 test)', function () {
   test('issue-156 ["BOT/0.1 (BOT for JCE)"]', function () {
-    browser = browscap.getBrowser('BOT/0.1 (BOT for JCE)');
+    const browscap = new Browscap();
+    const browser = browscap.getBrowser('BOT/0.1 (BOT for JCE)');
 
     assert.strictEqual(browser['Comment'], 'JCE vulnerability scanner', 'Expected actual "Comment" to be \'JCE vulnerability scanner\' (was \'' + browser['Comment'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');
     assert.strictEqual(browser['Browser'], 'BOT for JCE', 'Expected actual "Browser" to be \'BOT for JCE\' (was \'' + browser['Browser'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');

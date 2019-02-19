@@ -1,13 +1,12 @@
-"use strict";
+'use strict';
 
-var assert = require('assert'),
-    Browscap = require('../browscap.js'),
-    browscap = new Browscap(),
-    browser;
+const assert = require('assert');
+const Browscap = require('../src/index.js');
 
 suite('checking for issue 069. (1 test)', function () {
   test('issue-069 ["ContextAd Bot 1.0"]', function () {
-    browser = browscap.getBrowser('ContextAd Bot 1.0');
+    const browscap = new Browscap();
+    const browser = browscap.getBrowser('ContextAd Bot 1.0');
 
     assert.strictEqual(browser['Comment'], 'ContextAd Bot', 'Expected actual "Comment" to be \'ContextAd Bot\' (was \'' + browser['Comment'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');
     assert.strictEqual(browser['Browser'], 'ContextAd Bot', 'Expected actual "Browser" to be \'ContextAd Bot\' (was \'' + browser['Browser'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');

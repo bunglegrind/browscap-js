@@ -1,13 +1,12 @@
-"use strict";
+'use strict';
 
-var assert = require('assert'),
-    Browscap = require('../browscap.js'),
-    browscap = new Browscap(),
-    browser;
+const assert = require('assert');
+const Browscap = require('../src/index.js');
 
 suite('checking for issue 268. (1 test)', function () {
   test('issue-268 ["Mozilla/5.0 (compatible; Embedly/0.2; snap; +http://support.embed.ly/)"]', function () {
-    browser = browscap.getBrowser('Mozilla/5.0 (compatible; Embedly/0.2; snap; +http://support.embed.ly/)');
+    const browscap = new Browscap();
+    const browser = browscap.getBrowser('Mozilla/5.0 (compatible; Embedly/0.2; snap; +http://support.embed.ly/)');
 
     assert.strictEqual(browser['Comment'], 'Social Bookmarkers', 'Expected actual "Comment" to be \'Social Bookmarkers\' (was \'' + browser['Comment'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');
     assert.strictEqual(browser['Browser'], 'Embedly', 'Expected actual "Browser" to be \'Embedly\' (was \'' + browser['Browser'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');

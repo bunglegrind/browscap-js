@@ -1,13 +1,12 @@
-"use strict";
+'use strict';
 
-var assert = require('assert'),
-    Browscap = require('../browscap.js'),
-    browscap = new Browscap(),
-    browser;
+const assert = require('assert');
+const Browscap = require('../src/index.js');
 
 suite('checking for issue 909. (1 test)', function () {
   test('issue-909 ["Echoping/6.0.2"]', function () {
-    browser = browscap.getBrowser('Echoping/6.0.2');
+    const browscap = new Browscap();
+    const browser = browscap.getBrowser('Echoping/6.0.2');
 
     assert.strictEqual(browser['Comment'], 'Rippers', 'Expected actual "Comment" to be \'Rippers\' (was \'' + browser['Comment'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');
     assert.strictEqual(browser['Browser'], 'Echoping', 'Expected actual "Browser" to be \'Echoping\' (was \'' + browser['Browser'] + '\'; used pattern: ' + browser['browser_name_regex'] + ')');
